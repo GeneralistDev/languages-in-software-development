@@ -1,0 +1,30 @@
+\documentclass[11pt, english, numbers=endperiod]{scrartcl}
+
+\usepackage{listings}
+\usepackage{color}
+
+\title{Assignment 1}
+\subtitle{COS30023 - Languages in Software Development}
+\author{Daniel Parker - 971328X}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Proof Tree}
+
+
+\section{Bubble Sort}
+\subsection{bubble/2}
+In planning this predicate, I rationalised the result I wanted as being the sorted result of the head of the current list and the head of the tail of the current list. Then I would keep the smaller of the two, and recursively bubble the bigger part as the head of the remaining tail.
+
+\subsection{bubble\_sort/2}
+The bubble\_sort predicate makes use of three other predicates; bubble/2, reverse/2, and remove/3. This predicated is again recursive in nature. A sorted list is created by bubbling, reversing the result, removing the top most element (head), reversing it back again and calling the bubble sort on the remaining tail.
+
+\subsubsection{Source}
+\lstinputlisting[language=Prolog]{bubblesort.pl}
+
+\section{Logical Circuits}
+
+\end{document}
