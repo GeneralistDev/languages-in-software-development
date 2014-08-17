@@ -11,7 +11,7 @@ bubble([X],[X]).
 bubble([X,Y|T], [Y|Z]) :- X > Y, bubble([X|T], Z).
 bubble([X,Y|T], [X|Z]) :- X =< Y, bubble([Y|T], Z).
 
-% Remove the head
+% Separate the head and the tail of the list
 remove([H|T],H,T).
 
 % Bubble sort the whole list

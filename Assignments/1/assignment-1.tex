@@ -2,6 +2,7 @@
 
 \usepackage{listings}
 \usepackage{color}
+\usepackage{minted}
 
 \title{Assignment 1}
 \subtitle{COS30023 - Languages in Software Development}
@@ -22,9 +23,27 @@ In planning this predicate, I rationalised the result I wanted as being the sort
 \subsection{bubble\_sort/2}
 The bubble\_sort predicate makes use of three other predicates; bubble/2, reverse/2, and remove/3. This predicated is again recursive in nature. A sorted list is created by bubbling, reversing the result, removing the top most element (head), reversing it back again and calling the bubble sort on the remaining tail.
 
-\subsubsection{Source}
-\lstinputlisting[language=Prolog]{bubblesort.pl}
+\subsection{Source}
+\inputminted[tabsize=4]{prolog}{bubblesort.pl}
 
 \section{Logical Circuits}
+\subsection{NAND}
+\inputminted[firstline=3, lastline=7 ,tabsize=4]{prolog}{gates.pl}
+
+\subsection{NAND Logic Gates}
+\subsubsection{AND}
+\inputminted[firstline=9, lastline=11 ,tabsize=4]{prolog}{gates.pl}
+
+\subsubsection{OR}
+\inputminted[firstline=19, lastline=22 ,tabsize=4]{prolog}{gates.pl}
+
+\subsubsection{NOR}
+\inputminted[firstline=13, lastline=17 ,tabsize=4]{prolog}{gates.pl}
+
+\subsubsection{XOR}
+\inputminted[firstline=24, lastline=28 ,tabsize=4]{prolog}{gates.pl}
+
+\subsubsection{XNOR}
+\inputminted[firstline=30, lastline=35 ,tabsize=4]{prolog}{gates.pl}
 
 \end{document}
