@@ -3,6 +3,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{minted}
+\usepackage{bussproofs}
 
 \title{Assignment 1}
 \subtitle{COS30023 - Languages in Software Development}
@@ -14,7 +15,13 @@
 \maketitle
 
 \section{Proof Tree}
-
+\begin{prooftree}
+\AxiomC{father(X,luke)}
+\AxiomC{father(X,leia)}
+\AxiomC{mother(Y,luke)}
+\AxiomC{mother(Y,leia)}
+\QuaternaryInfC{sibling(luke, leia)}
+\end{prooftree}
 
 \section{Bubble Sort}
 \subsection{bubble/2}
