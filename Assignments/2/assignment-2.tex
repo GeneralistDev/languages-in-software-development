@@ -1,0 +1,56 @@
+\documentclass[11pt, numbers=endperiod, parskip=half]{scrartcl}
+
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage{semantic}
+\usepackage{soul}
+
+\title{Assignment 2}
+\subtitle{COS30023 - Languages in Software Development}
+\author{Daniel Parker - 971328X}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Problem 1}
+\subsection{Hoare Triple}
+\begin{verbatim}
+{a > 4, b = 7}
+  x := b;
+  y := a;
+{a > 4, b = 7, x = 7, y > 4}
+\end{verbatim}
+
+\subsection{Rules}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%		  RULES         %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\inference[C = \textsuperscript{def} C.Target := C.Source : ]{true}{\{Q[C.Target \\\ C.Source]\} C \{Q\}}
+\bigskip
+\inference[C = \textsuperscript{def} C\textsubscript{1}; C\textsubscript{2} : ]{\{P\}C\textsubscript{1}\{R\} & \{R\}C\textsubscript{2}\{Q\}}{\{P\}C\textsubscript{1};C\textsubscript{2}\{Q\}}
+
+\subsection{Proof}
+
+\inference{\{ a > 4, b = 7 \} x := b \{R\} & \{R\} y := a \{ a > 4, b = 7, x = 7, y > 4 \} }{ \{ a > 4, b = 7 \} x := b; y := a; \{ a > 4, b = 7, x = 7, y > 4 \} }
+
+\bigskip
+\(\{R\} C_2: y := a; \{ a > 4, b = 7, x = 7, y > 4\}\)
+\begin{flalign*}
+\{R\} &= \{ a > 4, b = 7, x = 7, y > 4\}\lbrack y \backslash a \rbrack &\\
+      &= \{ a > 4, b = 7, x = 7, a > 4\} \\
+      &= \{ a > 4, b = 7, x = 7, \hbox{\st{a $>$ 4}}\} \\
+\{R\} &= \{ a > 4, b = 7, x = 7\}
+\end{flalign*}
+
+\bigskip
+\(\{ a > 4, b = 7\} C_1: x := b; \{R: a > 4, b = 7, x = 7\}\)
+\begin{flalign*}
+\{ a > 4, b = 7\}	&= \{ a > 4, b = 7, x = 7\}\lbrack x \backslash b \rbrack &\\
+					&= \{ a > 4, b = 7, b = 7\} \\
+					&= \{ a > 4, b = 7, \hbox{\st{b = 7}}\} \\
+\{ a > 4, b = 7\}	&= \{ a > 4, b = 7\} \\
+\end{flalign*}
+
+\end{document}
