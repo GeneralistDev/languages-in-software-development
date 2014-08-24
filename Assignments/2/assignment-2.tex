@@ -4,6 +4,7 @@
 \usepackage{color}
 \usepackage{semantic}
 \usepackage{soul}
+\usepackage{pdflscape}
 
 \title{Assignment 2}
 \subtitle{COS30023 - Languages in Software Development}
@@ -53,4 +54,30 @@
 \{ a > 4, b = 7\}	&= \{ a > 4, b = 7\} \\
 \end{flalign*}
 
+\section{Problem 2}
+\subsection{Hoare Triple}
+\begin{verbatim}
+{true}
+  if x < 0 then val := -x; else val := x;
+{val = abs(x)}
+\end{verbatim}
+
+\subsection{Rules}
+\inference[C = \textsuperscript{def} if C.Test then C.Then else C.Else : ]{ \{ P \wedge C.Test \} C.Then \{ Q \} & \{ P \wedge \neg C.Test \} C.Else \{ Q \} }{ \{P\}C\{Q\} }
+\bigskip
+\inference{P => P' & \{P'\} C \{Q'\} & Q' => Q }{\{P\}C\{Q\}}
+
+\subsection{Proof}
+\inference{ \{true \wedge x < 0\} val := -x; \{ val = abs(x) \} & \{ true \wedge x \geq 0 \} val := x; \{ val = abs(x) \} }{ \{ true \}\ if\ x < 0\ then\ val := -x;\ else\ val := x; \{ val = abs(x) \} }
+
+\subsubsection{Premise 1}
+\inference{x < 0 => -x = abs(x) & \inference{true}{ \{ -x = abs(x) \} val := -x; \{ val = abs(x) \} } }{ \{ x < 0 \} val := -x; \{ val = abs(x) \} }
+
+\subsubsection{Premise 2}
+\inference{x \geq 0 => x = abs(x) & \inference{true}{ \{ x = abs(x) \} val := x; \{ val = abs(x) \} } }{ \{ x \geq 0 \} val := x; \{ val = abs(x) \} }
+
+\begin{landscape}
+\subsubsection{Full Proof}
+\inference{ \inference{x < 0 => -x = abs(x) & \inference{true}{ \{ -x = abs(x) \} val := -x; \{ val = abs(x) \} } }{ \{ x < 0 \wedge true \} val := -x; \{ val = abs(x) \} } & \inference{x \geq 0 => x = abs(x) & \inference{true}{ \{ x = abs(x) \} val := x; \{ val = abs(x) \} } }{ \{ x \geq 0 \wedge true \} val := x; \{ val = abs(x) \} } }{ \{ true \}\ if\ x < 0\ then\ val := -x;\ else\ val := x; \{ val = abs(x) \} }
+\end{landscape}
 \end{document}
