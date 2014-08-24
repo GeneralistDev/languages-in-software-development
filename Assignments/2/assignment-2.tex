@@ -76,6 +76,8 @@
 \subsubsection{Premise 2}
 \inference{x \geq 0 => x = abs(x) & \inference{true}{ \{ x = abs(x) \} val := x; \{ val = abs(x) \} } }{ \{ x \geq 0 \} val := x; \{ val = abs(x) \} }
 
+\setpremisesspace{1em}
+\setpremisesend{0.5em}
 \begin{landscape}
 \subsubsection{Full Proof}
 \inference{ \inference{x < 0 => -x = abs(x) & \inference{true}{ \{ -x = abs(x) \} val := -x; \{ val = abs(x) \} } }{ \{ x < 0 \wedge true \} val := -x; \{ val = abs(x) \} } & \inference{x \geq 0 => x = abs(x) & \inference{true}{ \{ x = abs(x) \} val := x; \{ val = abs(x) \} } }{ \{ x \geq 0 \wedge true \} val := x; \{ val = abs(x) \} } }{ \{ true \}\ if\ x < 0\ then\ val := -x;\ else\ val := x; \{ val = abs(x) \} }
