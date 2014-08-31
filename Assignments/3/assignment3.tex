@@ -32,14 +32,66 @@ length(\ aS\ ) &= 1 + length(\ S\ )
 s_1 &= \epsilon: & \epsilon \oplus s_2 & &= &s_2 &\\
 s_1 &= as'_1: & as'_1 \oplus s_2 & &= &a(s'_1 \oplus s_2)
 \end{align*}
+\clearpage
+\subsection{a)}
+Show that if \(s \in S\), then \(s \oplus \epsilon = s\)\\
+\textbf{Base Case 1}\\
+\[
+s \equiv \epsilon
+\]
+\[
+\epsilon \oplus \epsilon = \epsilon
+\]
+The first base case is when s is structurally equivalent to the empty string \(\epsilon\) and it's a fact that concatenating two empty strings will yield another empty string.
 
-\subsection{a}
-Show that if \(s \in S\), then \(s \oplus \epsilon = s\)
-\subsection{b}
+\textbf{Base Case 2}\\
+if \(length(s) = 1\) then
+\[
+s \oplus \epsilon = s
+\]
+
+In this second base case we take s to be any string of length 1 and again it is a fact that any string concatenated with the empty string \(\epsilon\) will be the original first string. In this case the string will still be of length 1.
+
+\textbf{Inductive Step}\\
+We assume that the base case holds for all lengths of s greater than 1, therefore:
+
+if \(length (s) > 1\)
+\[
+s \oplus \epsilon = s
+\]
+\textbf{Q.E.D.}
+\subsection{b)}
 Show that if \(s_1, s_2 \in S\) then \(length(s_1 \oplus s_2) = length(s_1) + length(s_2)\)\\
 \textbf{Base Case 1}\\
-\(\)
+\(s_1, s_2 \equiv \epsilon\)
 
+Given that \(length(\epsilon) = 0\) then it goes to say that \(length(\epsilon \oplus \epsilon) = 0\).\\
+
+\textbf{Base Case 2}\\
+\(s_1 \neq \epsilon\), where \(length(s_1) = 1\) and \(s_2 \equiv \epsilon\).
+\[
+length(s_1 \oplus \epsilon) = length(s_1)
+\]
+
+For the case where \(s_1\) is a string of length 1 and \(s_2\) is an empty string, the concatenated length will be the length of \(s_1\).\\
+
+\textbf{Base Case 3}\\
+\(s_1, s_2 \neq \epsilon\), where \(length(s_1) = 1\) and \(length(s_2) = 1\).
+\[
+length(s_1 \oplus s_2) = length(s_1) + length(s_2) = 2
+\]
+
+For the case where both \(s_1\) and \(s_2\) are strings of length 1, the concatenated length will be the sum of the individual lengths, which is 2.
+
+\textbf{Inductive Step} \\
+\(length(s_1) > 1\) and \(length(s_2) > 1\)
+\[
+length(s_1 \oplus s_2) = length(s_1) + length(s_2)
+\]
+
+We assume the base case 3 holds for strings \(s_1, s_2\) of any length greater than 1.\\
+
+\textbf{Q.E.D.}
 \section{Problem 2}
 \inputminted{prolog}{list_check.pl}
 \end{document}
