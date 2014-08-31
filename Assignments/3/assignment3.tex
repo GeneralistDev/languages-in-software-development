@@ -1,0 +1,45 @@
+\documentclass[11pt, numbers=endperiod, parskip=half]{scrartcl}
+
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage{semantic}
+\usepackage{minted}
+
+\title{Assignment 3}
+\subtitle{COS30023 - Languages in Software Development}
+\author{Daniel Parker - 971328X}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Problem 1}
+\subsection{String specification}
+\begin{align*}
+S ::=& \ \ \ \epsilon \\
+&|\ \ aS
+\end{align*}
+\subsection{String Length Specification}
+
+\begin{align*}
+length(\ \epsilon\ ) &= 0 \\
+length(\ aS\ ) &= 1 + length(\ S\ )
+\end{align*}
+
+\subsection{String Concatenation Specification}
+\begin{align*}
+s_1 &= \epsilon: & \epsilon \oplus s_2 & &= &s_2 &\\
+s_1 &= as'_1: & as'_1 \oplus s_2 & &= &a(s'_1 \oplus s_2)
+\end{align*}
+
+\subsection{a}
+Show that if \(s \in S\), then \(s \oplus \epsilon = s\)
+\subsection{b}
+Show that if \(s_1, s_2 \in S\) then \(length(s_1 \oplus s_2) = length(s_1) + length(s_2)\)\\
+\textbf{Base Case 1}\\
+\(\)
+
+\section{Problem 2}
+\inputminted{prolog}{list_check.pl}
+\end{document}
