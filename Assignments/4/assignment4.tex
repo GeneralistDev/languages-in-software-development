@@ -2,6 +2,7 @@
 
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage[final]{pdfpages}
 
 \title{Assignment 4}
 \subtitle{COS30023 - Languages in Software Development}
@@ -10,6 +11,7 @@
 \date{\today}
 
 \begin{document}
+\includepdf[pages=1-1]{ProblemSet4.pdf}
 \maketitle
 
 \section{Problem 1}
@@ -117,4 +119,16 @@ q_0 &= 0-9 \oplus ((0-9)^* \oplus (. \oplus ((0-9)^* \oplus (E \oplus ((+|-|\eps
 \[
 	^\wedge [0-9]^+ \backslash.?[0-9]^* (E[+-]?[0-9]^+)?\$
 \]
+
+\subsection{Token Type}
+The token defined above is an unsigned IEEE floating point number. Here are some strings that are valid in the above definition.
+\begin{itemize}
+	\item{\(123\)}
+	\item{\(123.123\)}
+	\item{\(123.123E+123\)}
+	\item{\(123.123E-123\)}
+	\item{\(123.123E123\)}
+	\item{\(123E+123\)}
+	\item{etc.}
+\end{itemize}
 \end{document}
