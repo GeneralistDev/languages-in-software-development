@@ -1,0 +1,31 @@
+\documentclass[11pt, numbers=endperiod, parskip=half]{scrartcl}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[final]{pdfpages}
+\usepackage{pdflscape}
+\usepackage{minted}
+
+\title{Assignment 4}
+\subtitle{COS30023 - Languages in Software Development}
+\author{Daniel Parker - 971328X}
+
+\date{\today}
+
+\begin{document}
+\includepdf[pages=1-1]{ProblemSet5.pdf}
+\maketitle
+\section{Parsing}
+\subsection{Test Input}
+\begin{minted}{pascal}
+a := 5 + 3; b := {print (a, a-1), 10 * a}; print (b)
+\end{minted}
+\subsection{Parser Result}
+\centering
+\includegraphics[width=\linewidth]{success.png}
+
+\begin{landscape}
+\section{Source}
+\inputminted{java}{StraightLine/src/StraightLine.jj}
+\end{landscape}
+\end{document}

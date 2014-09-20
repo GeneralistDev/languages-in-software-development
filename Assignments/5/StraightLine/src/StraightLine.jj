@@ -1,0 +1,85 @@
+/**
+ * JavaCC template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
+ */options{  JDK_VERSION = "1.7";  static = false;}PARSER_BEGIN(StraightLine)
+import java.io.*;
+
+public class StraightLine{
+	public static void main( String[] Args ) {
+		try {
+			StraightLine lParser = new StraightLine( new FileInputStream( Args[0] ) );
+			lParser.CompilationUnit();
+			System.out.println( "SUCCESS" );
+		} catch (ParseException e) {
+			System.out.println( "Syntax Error : \n"+ e.toString() );
+		} catch (FileNotFoundException e) {
+			System.out.println( e.toString() );
+		}
+	}}PARSER_END(StraightLine)SKIP :
+{
+	" "
+|
+	"\r"
+|
+	"\t"
+|
+	"\n"
+|
+	"\r\n"
+|
+	< "//" (~["\n"])* "\n">
+}void CompilationUnit():
+{}
+{
+	Statements() < EOF >
+}
+
+void Statements():
+{}
+{
+	Statement() (";" Statement())*
+}
+
+void Statement():
+{}
+{
+		<IDENTIFIER> ":=" Expression()
+	|
+		"print" "(" ExpressionList() ")"
+}
+
+void Expression():
+{}
+{
+	Term() (("+" | "-") Term())*
+}
+
+void Term():
+{}
+{
+	Primary() (("*" | "/") Primary())*
+}
+
+void Primary():
+{}
+{
+		<IDENTIFIER>
+	|
+		<INTEGER>
+	|
+		"(" Expression() ")"
+	|
+		"{" Statement() "," Expression() "}"
+}
+
+void ExpressionList():
+{}
+{
+	Expression() ("," Expression() )*
+}
+
+TOKEN :
+{
+  	< INTEGER: (["0"-"9"])+ >
+|
+	< IDENTIFIER: ["a" - "z", "A" - "Z"](["a"-"z", "A"-"Z", "0" - "9", "_"])* >
+}
