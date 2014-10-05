@@ -1,5 +1,6 @@
 package ast;
 
+import machine.PCodeVisitor;
 import parser.Token;
 
 public class Print extends PCode{
@@ -17,5 +18,10 @@ public class Print extends PCode{
 	@Override
 	public String toString() {
 		return fMessage;
+	}
+	
+	@Override
+	public void accept(PCodeVisitor aVisitor) {
+		aVisitor.visit(this);
 	}
 }

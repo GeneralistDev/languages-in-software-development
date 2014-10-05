@@ -1,5 +1,6 @@
 package ast;
 
+import machine.PCodeVisitor;
 import parser.Token;
 
 public abstract class PCode extends Position {
@@ -11,4 +12,6 @@ public abstract class PCode extends Position {
 	}
 	
 	public abstract String toString();
+	
+	public abstract void accept( PCodeVisitor aVisitor );
 }

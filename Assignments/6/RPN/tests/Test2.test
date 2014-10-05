@@ -1,0 +1,13 @@
+load 20.0
+dup
+store $a
+load 4.0
+load 2.0
+mul
+dup
+print"4 * 2 = "
+load 1.0
+add
+dup
+print"4 * 2 + 1 = "
+store $x

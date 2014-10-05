@@ -1,5 +1,6 @@
 package ast;
 
+import machine.PCodeVisitor;
 import parser.Token;
 
 public class PCodeNumber extends PCodeArgument{
@@ -21,5 +22,10 @@ public class PCodeNumber extends PCodeArgument{
 	@Override
 	public String toString() {
 		return fValue.toString();
+	}
+
+	@Override
+	public Double accept(PCodeVisitor aVisitor) {
+		return aVisitor.visit(this);
 	}
 }

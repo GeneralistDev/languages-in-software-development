@@ -4,6 +4,7 @@ package parser;
 import java.io.*;
 import java.util.*;
 import ast.*;
+import machine.PCodeMachine;
 
 public class PCodeParser implements PCodeParserConstants {
         public static void main( String[] args ) {
@@ -14,6 +15,16 @@ public class PCodeParser implements PCodeParserConstants {
                         for ( PCode pc : lInstructions ) {
                                 System.out.println( pc );
                         }
+
+                        System.out.println( "Running program: ");
+                        PCodeMachine lMachine = new PCodeMachine();
+
+                        for ( PCode inst: lInstructions ) {
+                                inst.accept( lMachine );
+                        }
+
+                        lMachine.printStackTrace();
+                        lMachine.printMemoryTrace();
                 } catch (ParseException e) {
                         System.out.println( "Syntax Error : \u005cn"+ e.toString() );
                 } catch( java.io.FileNotFoundException e ) {

@@ -3,6 +3,7 @@ package parser;
 import java.io.*;
 import java.util.*;
 import ast.*;
+import machine.PCodeMachine;
 
 /** Token Manager. */
 public class PCodeParserTokenManager implements PCodeParserConstants
