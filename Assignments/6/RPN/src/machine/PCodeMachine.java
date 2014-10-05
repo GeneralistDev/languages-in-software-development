@@ -34,7 +34,7 @@ public class PCodeMachine implements PCodeVisitor {
 	public void printMemoryTrace() {
 		System.out.println("Memory:");
 		for (String key: fMemory.keySet()) {
-			System.out.println("$" + key + ":\t" + fMemory.get(key));
+			System.out.println(key + ":\t" + fMemory.get(key));
 		}
 	}
 	
@@ -76,7 +76,7 @@ public class PCodeMachine implements PCodeVisitor {
 
 	@Override
 	public void visit(Print aInstruction) {
-		System.out.println(aInstruction.toString() + fStack.pop());
+		System.out.println(aInstruction.getMessage() + fStack.pop());
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import machine.PCodeVisitor;
 import parser.Token;
 
 public class Print extends PCode{
-	public String fMessage;
+	private String fMessage;
 	
 	public Print(Token aInstruction, Token aMessage) {
 		super(aInstruction);
@@ -17,6 +17,14 @@ public class Print extends PCode{
 
 	@Override
 	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append( "print\t" );
+		sb.append( fMessage );
+		return sb.toString();
+	}
+	
+	public String getMessage() {
 		return fMessage;
 	}
 	
