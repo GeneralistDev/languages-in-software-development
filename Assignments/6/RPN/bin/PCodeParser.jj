@@ -1,0 +1,109 @@
+options
+{
+  JDK_VERSION = "1.7";
+  static = false;
+  OUTPUT_DIRECTORY="parser";
+}
+PARSER_BEGIN(PCodeParser) 
+package parser;
+
+import java.io.*;
+import java.util.*;
+import ast.*;
+
+public class PCodeParser {
+	public static void main( String[] args ) {
+		try {
+			PCodeParser lParser = new PCodeParser( new FileInputStream( args[0] ) );
+			ArrayList< PCode > lInstructions = lParser.Program();
+			System.out.println( "PCode accepted:" ); 
+			for ( PCode pc : lInstructions ) {
+				System.out.println( pc );
+			}
+		} catch (ParseException e) {
+			System.out.println( "Syntax Error : \n"+ e.toString() );
+		} catch( java.io.FileNotFoundException e ) {
+			System.err.println( e.toString() ); 
+		}
+	}
+}
+PARSER_END(PCodeParser)
+ArrayList< PCode > Program():
+{
+	ArrayList< PCode > Result = new ArrayList< PCode >();
+	PCode lInstruction = null;
+}
+{
+	(lInstruction = PCodeInstruction() { Result.add( lInstruction ); })+ < EOF > 
+	{ return Result; }
+}
+
+PCode PCodeInstruction():
+{
+	PCodeArgument argument;
+	Token instruction;
+	Token string;
+	Token variable;
+}
+{
+	instruction = "print" string = < STRING >
+	{ 
+		return new Print(instruction, string);
+	}
+|
+	instruction = "add"
+	{ return new Add(instruction); }
+|	
+	instruction = "sub"
+	{ return new Sub(instruction); }
+|
+	instruction = "mul"
+	{ return new Mul(instruction); }
+|
+	instruction = "div"
+	{ return new Div(instruction); }
+|	
+	instruction = "dup"
+	{ return new Dup(instruction); }
+|
+	instruction = "load" argument = PCodeArgument()
+	{ return new Load( instruction, argument ); }
+|
+	instruction = "store" variable = < VARIABLE >
+	{ return new Store( instruction, variable ); }
+}
+
+PCodeArgument PCodeArgument():
+{
+	Token arg;
+}
+{
+	arg = < VARIABLE >
+	{ return new PCodeVariable( arg ); }
+|
+	arg = < NUMBER >
+	{ return new PCodeNumber( arg ); }
+}
+SKIP :
+{
+	" "
+|
+	"\r"
+|
+	"\t"
+|
+	"\n"
+|
+	< "//" (~["\n"])* "\n">
+}
+
+TOKEN :
+{
+	< VARIABLE : "$" (["a"-"z","A"-"Z","0"-"9","_"])+ >
+  |
+	< #EXPONENT : "E" ("+"|"-")? (["0"-"9"])+ >
+  | 
+	< NUMBER : (["0"-"9"])+ ("." (["0"-"9"])*)? (< EXPONENT >)? >
+  |
+	< STRING : "\"" (~["\""])* "\"" >
+}

@@ -1,0 +1,10 @@
+load 4
+load 2
+mul
+dup
+print"4 * 2 = "
+load 1
+add
+dup
+print"4 * 2 + 1 = "
+store $x
