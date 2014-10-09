@@ -19,8 +19,8 @@ public class Print extends PCode{
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append( "print\t" );
-		sb.append( fMessage );
+		sb.append( "print " );
+		sb.append( "\"" + fMessage + "\"" );
 		return sb.toString();
 	}
 	

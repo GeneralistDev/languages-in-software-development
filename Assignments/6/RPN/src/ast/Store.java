@@ -23,7 +23,7 @@ public class Store extends PCode {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append( "store\t" );
+		sb.append( "store " );
 		sb.append( fVariableName );
 		
 		return sb.toString();

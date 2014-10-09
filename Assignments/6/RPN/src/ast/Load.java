@@ -23,7 +23,7 @@ public class Load extends PCode {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append( "load\t" );
+		sb.append( "load " );
 		sb.append( fArgument.toString() );
 		
 		return sb.toString();
