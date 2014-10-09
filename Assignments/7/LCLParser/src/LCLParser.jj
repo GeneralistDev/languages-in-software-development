@@ -1,0 +1,107 @@
+options
+{
+  JDK_VERSION = "1.7";
+  static = false;
+  OUTPUT_DIRECTORY="parser";
+}
+
+PARSER_BEGIN(LCLParser) 
+package parser;
+
+import java.io.*;
+import java.util.*;
+import ast.*;
+
+public class LCLParser {
+	public static void main( String[] Args ) {
+		try {
+			LCLParser lParser = new LCLParser(new FileInputStream( Args[0] ));
+			ArrayList<LCLExpression> lExpressions = lParser.CompilationUnit();
+			
+			for ( LCLExpression e: lExpressions )
+			{
+				System.out.println( e );
+				
+				System.out.println( "Free names: " + e.freeNames() );
+				
+				e = e.substitute( "pred", new LambdaVariable( "MinusOne" ));
+				e = e.substitute( "fix", new LambdaVariable( "TheStrictFixPoint" ));
+				
+				System.out.println( e );
+				System.out.println( "Free names: " + e.freeNames() );
+			}
+		} catch (ParseException e) {
+			System.out.println("Syntax Error : \n"+ e.toString());
+		} catch (FileNotFoundException e) {
+			System.out.println( e.toString() );
+		}
+	}	
+}
+PARSER_END(LCLParser)
+
+ArrayList<LCLExpression> CompilationUnit():
+{
+	ArrayList<LCLExpression> Result = new ArrayList<LCLExpression>();
+	LCLExpression e;
+}
+{
+	(e = LCLExp() { Result.add( e ); })* < EOF >
+	{ return Result; }
+}
+
+LCLExpression LCLExp():
+{
+	Token t;
+	LCLExpression e1;
+	LCLExpression e2;
+	LCLExpression e3;
+}
+{
+	t = < NUMBER >
+	{ return new LambdaNumber(t.image); }
+|
+	t = < VARIABLE >
+	{ return new LambdaVariable(t.image); }
+|
+	LOOKAHEAD(2)
+	"(" "lambda" t = < VARIABLE > "." e1 = LCLExp() ")"
+	{ return new LambdaFunction( t.image, e1 ); }
+|
+	LOOKAHEAD(2)
+	"(" e1 = LCLExp() e2 = LCLExp() ")"
+	{ return new LambdaApplication( e1, e2 ); }
+|
+	LOOKAHEAD(2)
+	"(" "define" t = < VARIABLE > e1 = LCLExp() ")"
+	{ return new LCLDeclaration( t.image, e1 ); }
+|
+	LOOKAHEAD(2)
+	"(" "load" t = < STRING > ")"
+	{ return new LoadDeclaration( t.image.substring(1, t.image.length() - 1 )); }
+|
+	LOOKAHEAD(2)
+	"(" "if" e1 = LCLExp() e2 = LCLExp() e3 = LCLExp() ")"
+	{ return new IfThenElse( e1, e2, e3 ); }
+}
+
+SKIP :
+{
+	" "
+|
+	"\r"
+|
+	"\t"
+|
+	"\n"
+|
+	< "//" (~["\n"])* "\n">
+}
+
+TOKEN :
+{
+	< NUMBER: (["0"-"9"])+ >
+|
+	< STRING: "\"" (~["\""])* "\"" >
+|
+	< VARIABLE: ["a" - "z", "A" - "Z"](["a"-"z", "A"-"Z", "0" - "9", "_"])* >
+}

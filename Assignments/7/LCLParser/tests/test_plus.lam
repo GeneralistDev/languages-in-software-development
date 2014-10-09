@@ -1,0 +1,2 @@
+(load "plus.lam")
+((plus 1) 1)
