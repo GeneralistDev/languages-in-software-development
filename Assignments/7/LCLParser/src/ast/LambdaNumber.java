@@ -1,10 +1,15 @@
 package ast;
 
+import java.util.Hashtable;
 import java.util.Set;
 import java.util.HashSet;
 
 public class LambdaNumber extends LCLExpression {
 	private Integer fNumber;
+	
+	public Integer getNumber() {
+		return fNumber;
+	}
 	
 	public LambdaNumber( String aNumber ) {
 		fNumber = Integer.parseInt( aNumber );
@@ -23,5 +28,10 @@ public class LambdaNumber extends LCLExpression {
 	@Override
 	public String toString() {
 		return fNumber.toString();
+	}
+
+	@Override
+	public LCLExpression reduce(Hashtable<String, LCLExpression> aSymTable) {
+		return this;
 	}
 }

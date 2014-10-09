@@ -1,2 +1,2 @@
-(load "plus.lam")
+(load "tests/plus.lam")
 ((plus 1) 1)

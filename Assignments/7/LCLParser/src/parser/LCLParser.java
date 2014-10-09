@@ -10,6 +10,7 @@ public class LCLParser implements LCLParserConstants {
                 try {
                         LCLParser lParser = new LCLParser(new FileInputStream( Args[0] ));
                         ArrayList<LCLExpression> lExpressions = lParser.CompilationUnit();
+                        Hashtable<String, LCLExpression> lSymTable = new Hashtable<String, LCLExpression>();
 
                         for ( LCLExpression e: lExpressions )
                         {
@@ -17,11 +18,20 @@ public class LCLParser implements LCLParserConstants {
 
                                 System.out.println( "Free names: " + e.freeNames() );
 
-                                e = e.substitute( "pred", new LambdaVariable( "MinusOne" ));
-                                e = e.substitute( "fix", new LambdaVariable( "TheStrictFixPoint" ));
+                                //e = e.substitute( "pred", new LambdaVariable( "MinusOne" ));
+                                //e = e.substitute( "fix", new LambdaVariable( "TheStrictFixPoint" ));
 
                                 System.out.println( e );
                                 System.out.println( "Free names: " + e.freeNames() );
+
+                                e.reduce(lSymTable);
+
+                                System.out.println( e );
+                                System.out.println( "Free names: " + e.freeNames() );
+                        }
+
+                        for ( String key: lSymTable.keySet()) {
+                                System.out.println( lSymTable.get(key) );
                         }
                 } catch (ParseException e) {
                         System.out.println("Syntax Error : \u005cn"+ e.toString());

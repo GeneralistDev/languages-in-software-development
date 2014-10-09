@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Set;
 
 public class LambdaApplication extends LCLExpression {
@@ -37,5 +38,16 @@ public class LambdaApplication extends LCLExpression {
 	@Override
 	public String toString() {
 		return "( " + fFunction.toString() + " " + fArgument.toString() + " )";
+	}
+
+	@Override
+	public LCLExpression reduce(Hashtable<String, LCLExpression> aSymTable) {
+		if (fFunction instanceof LambdaFunction) {
+			LambdaFunction lFunction = (LambdaFunction)fFunction;
+			fFunction.substitute(lFunction.getVariable(), fArgument);
+			return fFunction.reduce(aSymTable);
+		} else {
+			return new LambdaApplication(fFunction.reduce(aSymTable), fArgument.reduce(aSymTable));
+		}
 	}
 }

@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Set;
 
 public class LambdaFunction extends LCLExpression {
@@ -55,6 +56,11 @@ public class LambdaFunction extends LCLExpression {
 	@Override
 	public String toString() {
 		return "(lambda " + fVariable + "." + fBody.toString() + ")";
+	}
+
+	@Override
+	public LCLExpression reduce(Hashtable<String, LCLExpression> aSymTable) {
+		return this;
 	}
 
 }

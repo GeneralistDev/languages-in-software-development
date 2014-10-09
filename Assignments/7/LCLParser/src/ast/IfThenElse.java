@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.Hashtable;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -46,5 +47,20 @@ public class IfThenElse extends LCLExpression {
 	@Override
 	public String toString() {
 		return "(if " + fCondition.toString() + " " + fThen.toString() + " " + fElse.toString() + ")";
+	}
+
+	@Override
+	public LCLExpression reduce(Hashtable<String, LCLExpression> aSymTable) {
+		LambdaNumber lConditionReduced = (LambdaNumber)fCondition.reduce(aSymTable);
+		
+		if (!(lConditionReduced instanceof LambdaNumber)) {
+			throw new RuntimeException("Condition is not an instance of LambdaNumber");
+		}
+		
+		if (lConditionReduced.getNumber() != 0) {
+			return fThen.reduce(aSymTable);
+		} else {
+			return fElse.reduce(aSymTable);
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.Hashtable;
 import java.util.Set;
 
 public class LCLDeclaration extends LCLExpression{
@@ -32,5 +33,12 @@ public class LCLDeclaration extends LCLExpression{
 	@Override
 	public String toString() {
 		return "(define " + fLabel + " " + fExpression.toString() + ")"; 
+	}
+
+	@Override
+	public LCLExpression reduce(Hashtable<String, LCLExpression> aSymTable) {
+		LCLExpression lSubExpression = fExpression.reduce(aSymTable);
+		aSymTable.put(fLabel, lSubExpression);
+		return lSubExpression;
 	}
 }

@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Set;
 
 public class LambdaVariable extends LCLExpression{
@@ -29,5 +30,15 @@ public class LambdaVariable extends LCLExpression{
 	@Override
 	public String toString() {
 		return fValue;
+	}
+
+	@Override
+	public LCLExpression reduce(Hashtable<String, LCLExpression> aSymTable) {
+		if (aSymTable.containsKey(fValue)) {
+			LCLExpression lExpression = aSymTable.get(fValue);
+			return lExpression;
+		} else {
+			throw new RuntimeException("Error reducing " + fValue + ", symbol not found");
+		}
 	}
 }
