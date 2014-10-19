@@ -64,9 +64,9 @@ Though I tried to, I still wasn't able to get the reduction to completely
 collapse to the point where the answer to ((plus 1) 1) was 2. Instead
 I am only able to get the following answer.
 \begin{minted}{text}
-( ( ( (lambda f.( (lambda x.( f (lambda y.( ( x x ) y )) )) (lambda x.( f
-(lambda y.( ( x x ) y )) )) )) (lambda plus.(lambda n.(lambda m.(
-if ( notZero n ) ( ( plus ( pred n ) ) ( succ m ) ) m)))) ) 1 ) 1 )
+(lambda f.( (lambda x.( f (lambda y.( ( x x ) y )) ))
+            (lambda x.( f (lambda y.( ( x x ) y )) )) ))
+
 \end{minted}
 
 \end{document}

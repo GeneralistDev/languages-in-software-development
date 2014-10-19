@@ -51,12 +51,14 @@ public class IfThenElse extends LCLExpression {
 
 	@Override
 	public LCLExpression reduce(Hashtable<String, LCLExpression> aSymTable) {
-		LambdaNumber lConditionReduced = (LambdaNumber)fCondition.reduce(aSymTable);
+		LambdaNumber lConditionReduced;
 		
-		if (!(lConditionReduced instanceof LambdaNumber)) {
+		if (!(fCondition.reduce(aSymTable) instanceof LambdaNumber)) {
 			throw new RuntimeException("Condition is not an instance of LambdaNumber");
+		} else {
+			lConditionReduced = (LambdaNumber)fCondition.reduce(aSymTable);
 		}
-		
+			
 		if (lConditionReduced.getNumber() != 0) {
 			return fThen.reduce(aSymTable);
 		} else {
