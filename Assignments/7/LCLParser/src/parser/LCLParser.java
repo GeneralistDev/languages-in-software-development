@@ -8,31 +8,24 @@ import ast.*;
 public class LCLParser implements LCLParserConstants {
         public static void main( String[] Args ) {
                 try {
-                        LCLParser lParser = new LCLParser(new FileInputStream( Args[0] ));
+                        LCLParser lParser = new LCLParser( new FileInputStream( Args[0] ) );
                         ArrayList<LCLExpression> lExpressions = lParser.CompilationUnit();
-                        Hashtable<String, LCLExpression> lSymTable = new Hashtable<String, LCLExpression>();
 
-                        for ( LCLExpression e: lExpressions )
-                        {
-                                System.out.println( e );
+                        Hashtable< String, LCLExpression > lSymbolTable =
+                                                                                                new Hashtable< String, LCLExpression >();
+                        lSymbolTable.put( "succ", new LambdaFunction( "x", new Increment( "x" ) ) );
+                        lSymbolTable.put( "pred", new LambdaFunction( "x", new Decrement( "x" ) ) );
+                        lSymbolTable.put( "isZero", new LambdaFunction( "x", new Zero( "x" ) ) );
+                        lSymbolTable.put( "notZero", new LambdaFunction( "x", new NotZero( "x" ) ) );
 
-                                System.out.println( "Free names: " + e.freeNames() );
+                        LCLExpression Result = null;
 
-                                //e = e.substitute( "pred", new LambdaVariable( "MinusOne" ));
-                                //e = e.substitute( "fix", new LambdaVariable( "TheStrictFixPoint" ));
 
-                                System.out.println( e );
-                                System.out.println( "Free names: " + e.freeNames() );
-
-                                e.reduce(lSymTable);
-
-                                System.out.println( e );
-                                System.out.println( "Free names: " + e.freeNames() );
+                        for ( LCLExpression e : lExpressions ) {
+                                Result = e.reduce( lSymbolTable );
                         }
 
-                        for ( String key: lSymTable.keySet()) {
-                                System.out.println( lSymTable.get(key) );
-                        }
+                        System.out.println( Result );
                 } catch (ParseException e) {
                         System.out.println("Syntax Error : \u005cn"+ e.toString());
                 } catch (FileNotFoundException e) {
@@ -83,40 +76,45 @@ public class LCLParser implements LCLParserConstants {
         jj_consume_token(1);
         jj_consume_token(2);
         t = jj_consume_token(VARIABLE);
-        jj_consume_token(3);
         e1 = LCLExp();
-        jj_consume_token(4);
-          {if (true) return new LambdaFunction( t.image, e1 );}
+        jj_consume_token(3);
+          {if (true) return new LCLDeclaration( t.image, e1 );}
       } else if (jj_2_2(2)) {
         jj_consume_token(1);
-        e1 = LCLExp();
-        e2 = LCLExp();
         jj_consume_token(4);
-          {if (true) return new LambdaApplication( e1, e2 );}
+        t = jj_consume_token(STRING);
+        jj_consume_token(3);
+          {if (true) return new LoadDeclaration( t.image.substring(1, t.image.length() - 1 ));}
       } else if (jj_2_3(2)) {
         jj_consume_token(1);
         jj_consume_token(5);
-        t = jj_consume_token(VARIABLE);
-        e1 = LCLExp();
-        jj_consume_token(4);
-          {if (true) return new LCLDeclaration( t.image, e1 );}
-      } else if (jj_2_4(2)) {
-        jj_consume_token(1);
-        jj_consume_token(6);
-        t = jj_consume_token(STRING);
-        jj_consume_token(4);
-          {if (true) return new LoadDeclaration( t.image.substring(1, t.image.length() - 1 ));}
-      } else if (jj_2_5(2)) {
-        jj_consume_token(1);
-        jj_consume_token(7);
         e1 = LCLExp();
         e2 = LCLExp();
         e3 = LCLExp();
-        jj_consume_token(4);
+        jj_consume_token(3);
           {if (true) return new IfThenElse( e1, e2, e3 );}
+      } else if (jj_2_4(2)) {
+        jj_consume_token(1);
+        jj_consume_token(6);
+        t = jj_consume_token(VARIABLE);
+        jj_consume_token(7);
+        e1 = LCLExp();
+        jj_consume_token(3);
+          {if (true) return new LambdaFunction( t.image, e1 );}
       } else {
-        jj_consume_token(-1);
-        throw new ParseException();
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case 1:
+          jj_consume_token(1);
+          e1 = LCLExp();
+          e2 = LCLExp();
+          jj_consume_token(3);
+          {if (true) return new LambdaApplication( e1, e2 );}
+          break;
+        default:
+          jj_la1[2] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
     }
     throw new Error("Missing return statement in function");
@@ -150,11 +148,16 @@ public class LCLParser implements LCLParserConstants {
     finally { jj_save(3, xla); }
   }
 
-  private boolean jj_2_5(int xla) {
-    jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_5(); }
-    catch(LookaheadSuccess ls) { return true; }
-    finally { jj_save(4, xla); }
+  private boolean jj_3_3() {
+    if (jj_scan_token(1)) return true;
+    if (jj_scan_token(5)) return true;
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    if (jj_scan_token(1)) return true;
+    if (jj_scan_token(4)) return true;
+    return false;
   }
 
   private boolean jj_3_4() {
@@ -169,59 +172,6 @@ public class LCLParser implements LCLParserConstants {
     return false;
   }
 
-  private boolean jj_3R_4() {
-    if (jj_scan_token(VARIABLE)) return true;
-    return false;
-  }
-
-  private boolean jj_3_3() {
-    if (jj_scan_token(1)) return true;
-    if (jj_scan_token(5)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_3() {
-    if (jj_scan_token(NUMBER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_2() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_3()) {
-    jj_scanpos = xsp;
-    if (jj_3R_4()) {
-    jj_scanpos = xsp;
-    if (jj_3_1()) {
-    jj_scanpos = xsp;
-    if (jj_3_2()) {
-    jj_scanpos = xsp;
-    if (jj_3_3()) {
-    jj_scanpos = xsp;
-    if (jj_3_4()) {
-    jj_scanpos = xsp;
-    if (jj_3_5()) return true;
-    }
-    }
-    }
-    }
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3_5() {
-    if (jj_scan_token(1)) return true;
-    if (jj_scan_token(7)) return true;
-    return false;
-  }
-
-  private boolean jj_3_2() {
-    if (jj_scan_token(1)) return true;
-    if (jj_3R_2()) return true;
-    return false;
-  }
-
   /** Generated Token Manager. */
   public LCLParserTokenManager token_source;
   SimpleCharStream jj_input_stream;
@@ -233,15 +183,15 @@ public class LCLParser implements LCLParserConstants {
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[2];
+  final private int[] jj_la1 = new int[3];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0xa002,0xa000,};
+      jj_la1_0 = new int[] {0xa002,0xa000,0x2,};
    }
-  final private JJCalls[] jj_2_rtns = new JJCalls[5];
+  final private JJCalls[] jj_2_rtns = new JJCalls[4];
   private boolean jj_rescan = false;
   private int jj_gc = 0;
 
@@ -256,7 +206,7 @@ public class LCLParser implements LCLParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 3; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -271,7 +221,7 @@ public class LCLParser implements LCLParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 3; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -282,7 +232,7 @@ public class LCLParser implements LCLParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 3; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -293,7 +243,7 @@ public class LCLParser implements LCLParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 3; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -303,7 +253,7 @@ public class LCLParser implements LCLParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 3; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -313,7 +263,7 @@ public class LCLParser implements LCLParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 3; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -430,7 +380,7 @@ public class LCLParser implements LCLParserConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 3; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -466,7 +416,7 @@ public class LCLParser implements LCLParserConstants {
 
   private void jj_rescan_token() {
     jj_rescan = true;
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
     try {
       JJCalls p = jj_2_rtns[i];
       do {
@@ -477,7 +427,6 @@ public class LCLParser implements LCLParserConstants {
             case 1: jj_3_2(); break;
             case 2: jj_3_3(); break;
             case 3: jj_3_4(); break;
-            case 4: jj_3_5(); break;
           }
         }
         p = p.next;

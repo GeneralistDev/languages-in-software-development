@@ -5,99 +5,68 @@
 \usepackage[final]{pdfpages}
 \usepackage{pdflscape}
 \usepackage{minted}
+\usepackage{geometry}
 
-\title{Assignment 6}
+\title{Assignment 7}
 \subtitle{COS30023 - Languages in Software Development}
 \author{Daniel Parker - 971328X}
 
 \date{\today}
 
 \begin{document}
-\includepdf[pages=1-1]{ProblemSet6.pdf}
+\includepdf[pages=1-1]{ProblemSet7.pdf}
+\newgeometry{left=2.5cm}
 \maketitle
-\section{Parser and AST}
-\subsection{Test Input}
-\begin{minted}{nasm}
-load 20.0
-dup
-store $a
-load 4.0
-load 2.0
-mul
-dup
-print "4 * 2 = "
-load 1.0
-add
-dup
-print "4 * 2 + 1 = "
-store $x
-\end{minted}
+% \begin{landscape}
+\section{LCLParser (Problems 1 \& 2)}
+\subsection{LCLParser.jj}
+\inputminted[tabsize=2]{java}{LCLParser/src/LCLParser.jj}
 
-\subsection{Result}
+\subsection{ast.LCLExpression}
+\inputminted[tabsize=2]{java}{LCLParser/src/ast/LCLExpression.java}
+
+\subsection{ast.LCLDeclaration}
+\inputminted[tabsize=2]{java}{LCLParser/src/ast/LCLDeclaration.java}
+
+\subsection{ast.LambdaFunction}
+\inputminted[tabsize=2]{java}{LCLParser/src/ast/LambdaFunction.java}
+
+\subsection{ast.LambdaNumber}
+\inputminted[tabsize=2]{java}{LCLParser/src/ast/LambdaNumber.java}
+
+\subsection{ast.LambdaVariable}
+\inputminted[tabsize=2]{java}{LCLParser/src/ast/LambdaVariable.java}
+
+\subsection{ast.LoadDeclaration}
+\inputminted[tabsize=2]{java}{LCLParser/src/ast/LoadDeclaration.java}
+
+\subsection{ast.LambdaApplication}
+\inputminted[tabsize=2]{java}{LCLParser/src/ast/LambdaNumber.java}
+
+\subsection{ast.IfThenElse}
+\inputminted[tabsize=2]{java}{LCLParser/src/ast/IfThenElse.java}
+
+\subsection{ast.Increment}
+\inputminted[tabsize=2]{java}{LCLParser/src/ast/Increment.java}
+
+\subsection{ast.Decrement}
+\inputminted[tabsize=2]{java}{LCLParser/src/ast/Decrement.java}
+
+\subsection{ast.Zero}
+\inputminted[tabsize=2]{java}{LCLParser/src/ast/Zero.java}
+
+\subsection{ast.NotZero}
+\inputminted[tabsize=2]{java}{LCLParser/src/ast/NotZero.java}
+
+\restoregeometry
+\section{Notes}
+Though I tried to, I still wasn't able to get the reduction to completely
+collapse to the point where the answer to ((plus 1) 1) was 2. Instead
+I am only able to get the following answer.
 \begin{minted}{text}
-PCode accepted:
-load 20.0
-dup
-store $a
-load 4.0
-load 2.0
-mul
-dup
-print "4 * 2 = "
-load 1.0
-add
-dup
-print "4 * 2 + 1 = "
-store $x
-Running program:
-4 * 2 = 8.0
-4 * 2 + 1 = 9.0
-Stack:
-1:	20.0
-Memory:
-$x:	9.0
-$a:	20.0
+( ( ( (lambda f.( (lambda x.( f (lambda y.( ( x x ) y )) )) (lambda x.( f
+(lambda y.( ( x x ) y )) )) )) (lambda plus.(lambda n.(lambda m.(
+if ( notZero n ) ( ( plus ( pred n ) ) ( succ m ) ) m)))) ) 1 ) 1 )
 \end{minted}
 
-\begin{landscape}
-\section{Source}
-\subsubsection{PCodeParser.jj}
-\inputminted{java}{RPN/src/PCodeParser.jj}
-
-\subsubsection{ast.Position}
-\inputminted{java}{RPN/src/ast/Position.java}
-\subsubsection{ast.PCode}
-\inputminted{java}{RPN/src/ast/PCode.java}
-\subsubsection{ast.PCodeArgument}
-\inputminted{java}{RPN/src/ast/PCodeArgument.java}
-
-\subsubsection{ast.Add}
-\inputminted{java}{RPN/src/ast/Add.java}
-\subsubsection{ast.Sub}
-\inputminted{java}{RPN/src/ast/Sub.java}
-\subsubsection{ast.Mul}
-\inputminted{java}{RPN/src/ast/Mul.java}
-\subsubsection{ast.Div}
-\inputminted{java}{RPN/src/ast/Div.java}
-\subsubsection{ast.Dup}
-\inputminted{java}{RPN/src/ast/Dup.java}
-
-\subsubsection{ast.Load}
-\inputminted{java}{RPN/src/ast/Load.java}
-\subsubsection{ast.Store}
-\inputminted{java}{RPN/src/ast/Store.java}
-\subsubsection{ast.Print}
-\inputminted{java}{RPN/src/ast/Print.java}
-
-\subsubsection{ast.PCodeNumber}
-\inputminted{java}{RPN/src/ast/PCodeNumber.java}
-\subsubsection{ast.PCodeVariable}
-\inputminted{java}{RPN/src/ast/PCodeVariable.java}
-
-\subsubsection{machine.PCodeVisitor}
-\inputminted{java}{RPN/src/machine/PCodeVisitor.java}
-\subsubsection{machine.PCodeMachine}
-\inputminted{java}{RPN/src/machine/PCodeMachine.java}
-
-\end{landscape}
 \end{document}

@@ -44,8 +44,8 @@ public class LambdaApplication extends LCLExpression {
 	public LCLExpression reduce(Hashtable<String, LCLExpression> aSymTable) {
 		if (fFunction instanceof LambdaFunction) {
 			LambdaFunction lFunction = (LambdaFunction)fFunction;
-			fFunction.substitute(lFunction.getVariable(), fArgument);
-			return fFunction.reduce(aSymTable);
+			lFunction.substitute(lFunction.getVariable(), fArgument);
+			return lFunction.reduce(aSymTable);
 		} else {
 			return new LambdaApplication(fFunction.reduce(aSymTable), fArgument.reduce(aSymTable));
 		}

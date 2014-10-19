@@ -35,8 +35,7 @@ public class LambdaVariable extends LCLExpression{
 	@Override
 	public LCLExpression reduce(Hashtable<String, LCLExpression> aSymTable) {
 		if (aSymTable.containsKey(fValue)) {
-			LCLExpression lExpression = aSymTable.get(fValue);
-			return lExpression;
+			return aSymTable.get(fValue);
 		} else {
 			throw new RuntimeException("Error reducing " + fValue + ", symbol not found");
 		}

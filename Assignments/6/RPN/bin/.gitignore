@@ -1,4 +1,3 @@
-/PCodeParser.jj
 /ast/
-/parser/
 /machine/
+/parser/
