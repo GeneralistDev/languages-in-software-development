@@ -41,7 +41,7 @@
 \inputminted[tabsize=2]{java}{LCLParser/src/ast/LoadDeclaration.java}
 
 \subsection{ast.LambdaApplication}
-\inputminted[tabsize=2]{java}{LCLParser/src/ast/LambdaNumber.java}
+\inputminted[tabsize=2]{java}{LCLParser/src/ast/LambdaApplication.java}
 
 \subsection{ast.IfThenElse}
 \inputminted[tabsize=2]{java}{LCLParser/src/ast/IfThenElse.java}
@@ -59,14 +59,9 @@
 \inputminted[tabsize=2]{java}{LCLParser/src/ast/NotZero.java}
 
 \restoregeometry
-\section{Notes}
-Though I tried to, I still wasn't able to get the reduction to completely
-collapse to the point where the answer to ((plus 1) 1) was 2. Instead
-I am only able to get the following answer.
+\section{Result}
 \begin{minted}{text}
-(lambda f.( (lambda x.( f (lambda y.( ( x x ) y )) ))
-            (lambda x.( f (lambda y.( ( x x ) y )) )) ))
-
+((plus 1) 1) = 2
 \end{minted}
 
 \end{document}

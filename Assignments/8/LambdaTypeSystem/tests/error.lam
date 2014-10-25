@@ -1,0 +1,2 @@
+// type error encountered: Function type expected for '(x z)'.
+(lambda x (Int -> Int). (lambda y (Int -> Int). (lambda z Int. ((x z) (y z)))))

@@ -1,0 +1,98 @@
+options
+{
+  JDK_VERSION = "1.7";
+  static = false;
+  OUTPUT_DIRECTORY="parser";
+}PARSER_BEGIN(TypedLambda)
+package parser;
+import java.io.*;
+import java.util.*;
+import ast.*;
+
+public class TypedLambda {
+	public static void main(String Args[]) throws ParseException {		try {
+			TypedLambda lp = new TypedLambda( new FileInputStream( Args[0] ) );
+			ArrayList< TypedLambdaExpression> exprs = lp.CompilationUnit();
+			
+			for ( TypedLambdaExpression exp : exprs ) {
+				try {
+					System.out.println( "Checking: " + exp );
+					LambdaType type = exp.typeCheck( new Hashtable<String,LambdaType>() );
+					System.out.println( "SUCCESS: " + exp + " has type " + type );
+				} catch (RuntimeException e) {
+					System.out.println( "Oops, type error encountered: " + e.getMessage() );
+				}
+			}
+		} catch ( ParseException e ) {
+			System.out.println( "Syntax Error : \n" + e.toString() );
+		} catch ( FileNotFoundException e ) {
+			System.out.println( e.toString() );
+		} catch ( RuntimeException e ) {
+			System.out.println( "Oops, type error encountered: " + e.getMessage() );		}
+	}
+}PARSER_END(TypedLambda)SKIP :
+{
+	" "
+|
+	"\r"
+|
+	"\t"
+|
+	"\n"
+|
+	< "//" (~["\n"])* "\n">
+}
+ArrayList<TypedLambdaExpression> CompilationUnit():
+{ 
+	TypedLambdaExpression e;
+	ArrayList<TypedLambdaExpression> Results = new ArrayList<TypedLambdaExpression>();
+}
+{
+	( e = LambdaExp() { Results.add(e); } ) + < EOF >
+	{ return Results; }
+}
+
+TypedLambdaExpression LambdaExp():
+{
+	TypedLambdaExpression e1;
+	TypedLambdaExpression e2;
+	LambdaType lType;
+	Token t;
+}
+{
+	t = < NUMBER >
+	{ return new LambdaNumber( t.image ); }
+|
+	t = < VARIABLE >
+	{ return new LambdaVariable( t.image ); }
+|
+	LOOKAHEAD(2)
+	"(" "lambda" t = < VARIABLE > lType = Type() "." e1 = LambdaExp() ")"
+	{ return new LambdaFunction( t.image, lType, e1 ); }
+|
+	"(" e1 = LambdaExp() e2 = LambdaExp() ")"
+	{ return new LambdaApplication( e1, e2 ); }
+}
+
+LambdaType Type():
+{
+	Token s;
+	LambdaType t1;
+	LambdaType t2;
+}
+{
+	s = "Int"
+	{ return new IntegerType(s.image); }
+|
+	"(" t1 = Type() "->" t2 = Type() ")"
+	{ return new FunctionType( t1, t2 ); }
+}
+
+TOKEN :
+{
+	< NUMBER: (["0"-"9"])+ >
+|
+	< STRING: "\"" (~["\""])* "\"" >
+|
+	< VARIABLE: ["a" - "z", "A" - "Z"](["a"-"z", "A"-"Z", "0" - "9", "_"])* >
+}

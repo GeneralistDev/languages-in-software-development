@@ -47,7 +47,8 @@ public class LambdaApplication extends LCLExpression {
 		
 		if (lFunction instanceof LambdaFunction) {
 			LambdaFunction lLambdaFunction = (LambdaFunction)lFunction;
-			LCLExpression subExpression = lLambdaFunction.substitute(lLambdaFunction.getVariable(), lArgument);
+			
+			LCLExpression subExpression = lLambdaFunction.getExpression().substitute(lLambdaFunction.getVariable(), lArgument);
 			return subExpression.reduce(aSymTable);
 		} else {
 			return new LambdaApplication(lFunction, lArgument);

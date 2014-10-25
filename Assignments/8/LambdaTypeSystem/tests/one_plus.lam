@@ -1,0 +1,9 @@
+// Success (add one one)
+(((lambda m ((Int->Int) -> (Int -> Int)) .
+(lambda n ((Int -> Int) -> (Int -> Int)) . (lambda s (Int -> Int) .
+(lambda z Int .
+((m s) ((n s) z))))))
+((lambda n ((Int->Int) -> (Int -> Int)) .
+(lambda s (Int -> Int) . (lambda z Int . (s ((n s) z)))))
+(lambda s (Int -> Int) . (lambda z Int . z)))) ((lambda n ((Int->Int) -> (Int -> Int)) .
+(lambda s (Int -> Int) . (lambda z Int . (s ((n s) z))))) (lambda s (Int -> Int) . (lambda z Int . z))))

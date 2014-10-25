@@ -22,25 +22,25 @@ public class Zero extends LCLExpression {
 
 	@Override
 	public LCLExpression reduce(Hashtable<String, LCLExpression> aSymTable) {
-		if ( aSymTable.contains( getVariable() )) {
-			if ( aSymTable.get( getVariable() ) instanceof LambdaNumber ) {
-				LambdaNumber lNumber = (LambdaNumber)aSymTable.get(getVariable());
+		return this;
+	}
+	
+	@Override
+	public LCLExpression substitute(String aVar, LCLExpression aExp) {
+		if ( getVariable().equals(aVar) ) {
+			if ( aExp instanceof LambdaNumber ) {
+				LambdaNumber lNumber = (LambdaNumber)aExp;
 				if (lNumber.getNumber() == 0) {
 					return new LambdaNumber("1");
 				} else {
 					return new LambdaNumber("0");
 				}
 			} else {
-				throw new ArithmeticException("Variable not a number" + getVariable());
+				throw new ArithmeticException( "Illegal argument: " + aExp );
 			}
 		} else {
-			throw new RuntimeException("No symbol mapping for " + getVariable());
+			return this;
 		}
-	}
-	
-	@Override
-	public LCLExpression substitute(String aVar, LCLExpression aExp) {
-		return this;
 	}
 
 	@Override
