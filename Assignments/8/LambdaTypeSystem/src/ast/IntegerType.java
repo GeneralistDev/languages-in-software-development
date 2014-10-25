@@ -2,19 +2,19 @@ package ast;
 
 public class IntegerType extends LambdaType {
 
-	public IntegerType( String aValue ) {
-		
-	}
+	public IntegerType() { }
 	
 	@Override
 	public boolean match(LambdaType aOtherType) {
-		// TODO Auto-generated method stub
-		return false;
+		if (aOtherType instanceof IntegerType) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Int";
 	}
 }

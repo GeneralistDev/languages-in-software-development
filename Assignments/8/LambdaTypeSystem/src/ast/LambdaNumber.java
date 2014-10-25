@@ -3,20 +3,19 @@ package ast;
 import java.util.Hashtable;
 
 public class LambdaNumber extends TypedLambdaExpression{
+	private String fValue;
 	
 	public LambdaNumber( String aValue ) {
-		
+		fValue = aValue;
 	}
 	
 	@Override
 	public LambdaType typeCheck(Hashtable<String, LambdaType> aGamma) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IntegerType();
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return fValue;
 	}
 }

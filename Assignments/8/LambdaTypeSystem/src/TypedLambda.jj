@@ -82,7 +82,7 @@ LambdaType Type():
 }
 {
 	s = "Int"
-	{ return new IntegerType(s.image); }
+	{ return new IntegerType(); }
 |
 	"(" t1 = Type() "->" t2 = Type() ")"
 	{ return new FunctionType( t1, t2 ); }

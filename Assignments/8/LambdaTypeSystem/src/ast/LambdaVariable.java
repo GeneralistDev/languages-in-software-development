@@ -3,20 +3,23 @@ package ast;
 import java.util.Hashtable;
 
 public class LambdaVariable extends TypedLambdaExpression{
+	private String fVariable;
 	
-	public LambdaVariable( String aValue ) {
-		
+	public LambdaVariable( String aVariable ) {
+		fVariable = aVariable;
 	}
 
 	@Override
 	public LambdaType typeCheck(Hashtable<String, LambdaType> aGamma) {
-		// TODO Auto-generated method stub
-		return null;
+		if (aGamma.contains(fVariable)) {
+			return aGamma.get(fVariable);
+		} else {
+			throw new RuntimeException(fVariable + " is not contained in the type environment");
+		}
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return fVariable;
 	}
 }
