@@ -7,7 +7,8 @@ public class LambdaFunction extends TypedLambdaExpression {
 	private LambdaType fType;
 	private TypedLambdaExpression fBody;
 	
-	public LambdaFunction( String aVariable, LambdaType aType, TypedLambdaExpression aBody ) {
+	public LambdaFunction( String aVariable, LambdaType aType, 
+									TypedLambdaExpression aBody ) {
 		fVariable = aVariable;
 		fType = aType;
 		fBody = aBody;
@@ -22,6 +23,7 @@ public class LambdaFunction extends TypedLambdaExpression {
 
 	@Override
 	public String toString() {
-		return "(lambda " + fVariable + " " + fType.toString() + " " + fBody.toString() + ")";
+		return "(lambda " + fVariable + " " + 
+				fType.toString() + " . " + fBody.toString() + ")";
 	}
 }

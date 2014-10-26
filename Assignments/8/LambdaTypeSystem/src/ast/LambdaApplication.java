@@ -7,7 +7,8 @@ public class LambdaApplication extends TypedLambdaExpression{
 	private TypedLambdaExpression fFunction;
 	private TypedLambdaExpression fArgument;
 	
-	public LambdaApplication( TypedLambdaExpression aFunction, TypedLambdaExpression aArgument ) {
+	public LambdaApplication( TypedLambdaExpression aFunction, 
+								TypedLambdaExpression aArgument ) {
 		fFunction = aFunction;
 		fArgument = aArgument;
 	}
@@ -22,7 +23,8 @@ public class LambdaApplication extends TypedLambdaExpression{
 			if (((FunctionType)lFunction).getType1().match(lArgumentType)){
 				return ((FunctionType)lFunction).getType2();
 			} else {
-				throw new RuntimeException(fFunction.toString() + " parameter type does not match argument type " + fArgument );
+				throw new RuntimeException(fFunction.toString() + 
+						" parameter type does not match argument type " + fArgument );
 			}
 		} else {
 			throw new RuntimeException("Function type expected for '" + fFunction + "'");
