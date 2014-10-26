@@ -15,8 +15,9 @@ public class LambdaFunction extends TypedLambdaExpression {
 
 	@Override
 	public LambdaType typeCheck(Hashtable<String, LambdaType> aGamma) {
-		aGamma.put(fVariable, fType);
-		return new FunctionType( fType, fBody.typeCheck(aGamma));
+		Hashtable<String, LambdaType>lGamma = (Hashtable<String, LambdaType>) aGamma.clone();
+		lGamma.put(fVariable, fType);
+		return new FunctionType( fType, fBody.typeCheck(lGamma));
 	}
 
 	@Override

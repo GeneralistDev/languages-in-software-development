@@ -11,7 +11,7 @@ public class LambdaVariable extends TypedLambdaExpression{
 
 	@Override
 	public LambdaType typeCheck(Hashtable<String, LambdaType> aGamma) {
-		if (aGamma.contains(fVariable)) {
+		if (aGamma.containsKey(fVariable)) {
 			return aGamma.get(fVariable);
 		} else {
 			throw new RuntimeException(fVariable + " is not contained in the type environment");

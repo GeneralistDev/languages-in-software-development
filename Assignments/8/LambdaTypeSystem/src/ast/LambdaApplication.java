@@ -14,9 +14,12 @@ public class LambdaApplication extends TypedLambdaExpression{
 	
 	@Override
 	public LambdaType typeCheck(Hashtable<String, LambdaType> aGamma) {
-		LambdaType lFunction = (FunctionType)fFunction.typeCheck(aGamma);
+		LambdaType lArgumentType = fArgument.typeCheck(aGamma);
+		
+		LambdaType lFunction = fFunction.typeCheck(aGamma);
+		
 		if (lFunction instanceof FunctionType) {
-			if (((FunctionType)lFunction).getType1().match(fArgument.typeCheck(aGamma))){
+			if (((FunctionType)lFunction).getType1().match(lArgumentType)){
 				return ((FunctionType)lFunction).getType2();
 			} else {
 				throw new RuntimeException(fFunction.toString() + " parameter type does not match argument type " + fArgument );
